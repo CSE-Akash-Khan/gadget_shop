@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import 'Controller.dart';
 import 'HeadphoneDetails.dart';
+import 'headphoneModel.dart';
 class HomePageHeaphone extends StatelessWidget {
   HomePageHeaphone({Key? key}) : super(key: key);
   HeadPhoneController headPhoneController = Get.put(HeadPhoneController());
@@ -75,13 +76,13 @@ class HomePageHeaphone extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.only(right: 10),
                 // shrinkWrap: true,
-                itemCount: headPhoneController.headPhoneData.length,
+                itemCount: headPhoneController.headPhoneDataList.length,
                 itemBuilder: (context, index) {
                  var headPhoneData =  headPhoneController.headPhoneDataList[index];
 
                   return InkWell(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => HeadPhoneDetails(headPhoneData,index),));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HeadPhoneDetails(index,headPhoneData),));
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(right: 10),
@@ -139,13 +140,13 @@ class HomePageHeaphone extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.only(right: 10),
                 // shrinkWrap: true,
-                itemCount: headPhoneController.headPhoneDemoDataList.length,
+                itemCount: headphoneDemoData.length,
                 itemBuilder: (context, index) {
-                  var headphoneDemo =  headPhoneController.headPhoneDemoDataList[index];
+                  var headphoneDemo =  headphoneDemoData[index];
 
                   return InkWell(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => HeadPhoneDetails(headphoneDemo,index),));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HeadPhoneDetails(index,headphoneDemo),));
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(right: 10),

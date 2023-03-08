@@ -4,27 +4,20 @@ import 'headphoneModel.dart';
 
 class HeadPhoneController extends GetxController{
 
-  // var headPhoneData = HeadphoneModel.headphone();
-  var headPhoneData = headphone();
-  var headPhoneDemoData = headphone_demo();
 
-  var headPhoneDataList = <HeadphoneModel>[].obs;
+  // var headPhoneDataList = <HeadphoneModel>[].obs;
   var headPhoneDemoDataList = <HeadphoneModel>[].obs;
-  var qq = 0.obs;
+  var headPhoneDataList=<HeadphoneModel>[];
+  var quantityList = [].obs;
 
   loadHeadPhoneData(){
-    for(int i = 0; i<headPhoneData.length; i++){
-      headPhoneDataList.add(headPhoneData[i]);
+    for(int i = 0; i<headphoneData.length; i++){
+      headPhoneDataList.add(headphoneData[i]);
     }
   }
-
-  loadHeadPhoneDemoData(){
-    for(int i = 0; i<headPhoneDemoData.length; i++){
-      headPhoneDemoDataList.add(headPhoneDemoData[i]);
-    }
-  }
-
   void increaseQuantity(int index){
+    quantityList![index]++;
+    headphoneData[index].price! * quantityList[index];
     headPhoneDataList[index].q++;
     update();
   }
@@ -34,6 +27,7 @@ class HeadPhoneController extends GetxController{
     // TODO: implement onInit
     super.onInit();
     loadHeadPhoneData();
-    loadHeadPhoneDemoData();
+    quantityList.value = List.filled(headPhoneDataList.length, 1);
+    // loadHeadPhoneDemoData();
   }
 }

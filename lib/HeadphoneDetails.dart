@@ -4,22 +4,24 @@ import 'package:get/get.dart';
 import 'Controller.dart';
 import 'headphoneModel.dart';
 class HeadPhoneDetails extends StatefulWidget {
-
-  HeadphoneModel? headphoneModel;
   var index;
-  HeadPhoneDetails(this.headphoneModel,this.index);
+  HeadphoneModel headphoneModel;
+  HeadPhoneDetails(this.index,this.headphoneModel);
 
   @override
   State<HeadPhoneDetails> createState() => _HeadPhoneDetailsState();
 }
 
 class _HeadPhoneDetailsState extends State<HeadPhoneDetails> {
-  HeadPhoneController headPhoneController = Get.find();
+  // HeadPhoneController headPhoneController = Get.find();
+
+  int totalAmount(){
+    return widget.headphoneModel.q * widget.headphoneModel.price!;
+  }
 
   @override
   Widget build(BuildContext context) {
-    var getData = widget.headphoneModel;
-    var modelclass = headphone();
+    var headphone = widget.headphoneModel;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -44,6 +46,27 @@ class _HeadPhoneDetailsState extends State<HeadPhoneDetails> {
           ),
         ),
       ),
+      // body: Center(
+      //   child: Column(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     crossAxisAlignment: CrossAxisAlignment.center,
+      //     children: [
+      //       Row(
+      //         crossAxisAlignment: CrossAxisAlignment.center,
+      //         mainAxisAlignment: MainAxisAlignment.center,
+      //         children: [
+      //           IconButton(onPressed: (){}, icon: Icon(Icons.remove)),
+      //           SizedBox(width: 15,),
+      //           Obx(()=> Text("${headPhoneController.quantityList[widget.index!]}")),
+      //           SizedBox(width: 15,),
+      //           IconButton(onPressed: (){
+      //             headPhoneController.increaseQuantity(widget.index!);
+      //           }, icon: Icon(Icons.add)),
+      //         ],
+      //       )
+      //     ],
+      //   ),
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -69,7 +92,7 @@ class _HeadPhoneDetailsState extends State<HeadPhoneDetails> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Image.asset(getData!.img.toString()),
+                        child: Image.asset("${headphone.img}"),
                       ),
                     ),
                   ),
@@ -79,10 +102,10 @@ class _HeadPhoneDetailsState extends State<HeadPhoneDetails> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(getData.title.toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
+                        Text(headphone.title.toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
                         SizedBox(height: 11,),
-                        Obx(()=> Text("\$${getData.price!*headPhoneController.headPhoneDataList[widget.index].q}.00")),
-                        // Obx(()=> Text("\$${getData.price}.00")),
+                        Text("\$${headphone.price!*headphone.q}.00"),
+                        // Obx(()=> Text("\$${headphone.price}.00")),
                         SizedBox(height: 30,),
                         Row(
                           children: [
@@ -90,7 +113,11 @@ class _HeadPhoneDetailsState extends State<HeadPhoneDetails> {
                               children: [
                                 InkWell(
                                   onTap: (){
-
+                                    setState(() {
+                                      if(headphone.q > 1){
+                                        headphone.q--;
+                                      }
+                                    });
                                   },
                                   child: Container(
                                     height: 40,
@@ -104,16 +131,12 @@ class _HeadPhoneDetailsState extends State<HeadPhoneDetails> {
                                 ),
                                 Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                                    child: Text("${headPhoneController.headPhoneDataList[widget.index].q}",style: TextStyle(color: Colors.black54),)
-                                ),
+                                    // child: Obx(()=> Text("${headPhoneController.quantityList[index]}",style: TextStyle(color: Colors.black54),))
+                                    child: Text("${headphone.q}",style: TextStyle(color: Colors.black54),)),
                                 InkWell(
                                   onTap: (){
-                                    headPhoneController.increaseQuantity(widget.index);
-                                    print(getData.q);
-                                    headPhoneController.qq.value++;
-                                    headPhoneController.headPhoneDataList[widget.index].q++;
                                     setState(() {
-
+                                      headphone.q++;
                                     });
                                   },
                                   child: Container(
@@ -223,7 +246,7 @@ class _HeadPhoneDetailsState extends State<HeadPhoneDetails> {
               children: [
                 Text("Total",style: TextStyle(color: Colors.black54,fontSize: 18)),
                 Spacer(),
-                Text("\$ price",style: TextStyle(color: Colors.grey.shade700,fontSize: 30)),
+                Text("\$ ${headphone.price! * headphone.q}",style: TextStyle(color: Colors.grey.shade700,fontSize: 30)),
 
               ],
             ),
@@ -234,7 +257,7 @@ class _HeadPhoneDetailsState extends State<HeadPhoneDetails> {
               minWidth: double.maxFinite,
               color: Color(0xff0f52bf),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              child: Text("CHECKOUT  (${getData.price})",style: TextStyle(color: Colors.white),),
+              child: Text("CHECKOUT  (${totalAmount()})",style: TextStyle(color: Colors.white),),
             )
           ],
         ),
